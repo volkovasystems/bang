@@ -80,5 +80,3 @@ var bang = function bang( method, URL, catcher ){
 		}
 	}
 };
-
-( module || { } ).exports = bang;
