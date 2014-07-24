@@ -65,18 +65,29 @@ var bang = function bang( method, URL, catcher ){
 	if( hasCatcher ){
 		request.open( method, URL );
 
-		request.send( );
+        try{
+            request.send( );
+        }catch( error ){
+            console.error( error );
+            catcher.call( request );
+        }
+
 	}else{
 		request.open( method, URL, false );
 
-		request.send( );
+        try{
+            request.send( );
 
-		if( request.status == 200 ){
-			return request.responseText;
-		}else{
-			var error = new Error( "request failed" );
-			console.error( error );
-			throw error;
-		}
+            if( request.status == 200 ){
+                return request.responseText;
+            }else{
+                var error = new Error( "request failed" );
+                console.error( error );
+                throw error;
+            }
+        }catch( error ){
+            console.error( error );
+            throw error;
+        }
 	}
 };
