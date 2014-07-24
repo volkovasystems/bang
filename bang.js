@@ -63,11 +63,11 @@ var bang = function bang( method, URL, catcher ){
 	}
 
 	if( hasCatcher ){
-		request.open( method, url );
+		request.open( method, URL );
 
 		request.send( );
 	}else{
-		request.open( method, url, false );
+		request.open( method, URL, false );
 
 		request.send( );
 
