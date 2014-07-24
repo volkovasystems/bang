@@ -81,15 +81,17 @@ var bang = function bang( method, URL, catcher ){
             request.send( );
 
             if( request.status == 200 ){
-                return request.responseText;
+                return request;
             }else{
                 var error = new Error( "request failed" );
                 console.error( error );
-                throw error;
+                request.error = error;
+                return request;
             }
         }catch( error ){
             console.error( error );
-            throw error;
+            request.error = error;
+            return request;
         }
 	}
 };
