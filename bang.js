@@ -58,6 +58,8 @@ var bang = function bang( method, URL, catcher ){
 		request.onreadstatechange = function onReadyStateChange( ){
 			var parameterList = Array.prototype.slice.call( arguments );
 
+            parameterList.splice( 0, 1, null );
+
 			catcher.apply( request, parameterList );
 		};
 	}
@@ -69,7 +71,7 @@ var bang = function bang( method, URL, catcher ){
             request.send( );
         }catch( error ){
             console.error( error );
-            catcher.call( request );
+            catcher.call( request, error );
         }
 
 	}else{
