@@ -53,12 +53,13 @@ var bang = function bang( method, URL, requestOverride ){
 
 	request.open( method, URL, false );
 
+	var requestParameterData = "";
 	if( typeof requestOverride != "undefined" ){
-		requestOverride( request );
+		requestParameterData = requestOverride( request );
 	}
 
 	try{
-		request.send( );
+		request.send( requestParameterData );
 
 		return request;
 
