@@ -51,11 +51,11 @@ var bang = function bang( method, URL, requestOverride ){
 		}
 	}
 
+	request.open( method, URL, false );
+
 	if( typeof requestOverride != "undefined" ){
 		requestOverride( request );
 	}
-
-	request.open( method, URL, false );
 
 	try{
 		request.send( );
