@@ -16,12 +16,13 @@
 
 	@end-module-documentation
 */
-var bang = function bang( method, URL ){
+var bang = function bang( method, URL, requestOverride ){
 	/*:
 		@meta-configuration:
 			{
 				"method:required": "string",
-				"URL:required": "string"
+				"URL:required": "string",
+				"requestOverride:optional": "function"
 			}
 		@end-meta-configuration
 	*/
@@ -48,6 +49,10 @@ var bang = function bang( method, URL ){
 				throw error;
 			}
 		}
+	}
+
+	if( typeof requestOverride != "undefined" ){
+		requestOverride( request );
 	}
 
 	request.open( method, URL, false );
