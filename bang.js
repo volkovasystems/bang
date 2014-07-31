@@ -16,13 +16,13 @@
 
 	@end-module-documentation
 */
-var bang = function bang( method, URL, catcher ){
+var bang = function bang( method, URL, requestOverride ){
 	/*:
 		@meta-configuration:
 			{
 				"method:required": "string",
 				"URL:required": "string",
-				"catcher:optional": "function"
+				"requestOverride:optional": "function"
 			}
 		@end-meta-configuration
 	*/
@@ -51,47 +51,20 @@ var bang = function bang( method, URL, catcher ){
 		}
 	}
 
-	var hasCatcher = false;
-	if( typeof catcher == "function" ){
-		hasCatcher = true;
-
-		request.onreadstatechange = function onReadyStateChange( ){
-			var parameterList = Array.prototype.slice.call( arguments );
-
-            parameterList.splice( 0, 1, null );
-
-			catcher.apply( request, parameterList );
-		};
+	if( typeof requestOverride != "undefined" ){
+		requestOverride( request );
 	}
 
-	if( hasCatcher ){
-		request.open( method, URL );
+	request.open( method, URL, false );
 
-        try{
-            request.send( );
-        }catch( error ){
-            console.error( error );
-            catcher.call( request, error );
-        }
+	try{
+		request.send( );
 
-	}else{
-		request.open( method, URL, false );
+		return request;
 
-        try{
-            request.send( );
-
-            if( request.status == 200 ){
-                return request;
-            }else{
-                var error = new Error( "request failed" );
-                console.error( error );
-                request.error = error;
-                return request;
-            }
-        }catch( error ){
-            console.error( error );
-            request.error = error;
-            return request;
-        }
+	}catch( error ){
+		console.error( error );
+		request.error = error;
+		return request;
 	}
 };
